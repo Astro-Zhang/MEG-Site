@@ -1,0 +1,48 @@
+defaults:
+  - _self_
+
+seed: 42
+
+dataset:
+  root: datasets/M3Site_data
+  split: "0.1"
+
+model:
+  num_classes: 7
+  hidden_features: 256
+  num_layers: 4
+  dropout: 0.3
+  aa_vocab_size: 4096
+  aa_embedding_dim: 32
+  esm_dim: 1536
+  property_dim: 62
+  function_dim: 768
+  edge_dim: 1
+  use_function: true
+  fusion_mode: gate
+
+loss:
+  class_weight_mode: official
+  focal_gamma: 1.0
+  label_smoothing: 0.02
+
+train:
+  batch_size: 8
+  learning_rate: 3.0e-5
+  weight_decay: 1.0e-4
+  epochs: 100
+  num_workers: 4
+  warmup_ratio: 0.1
+  gradient_clip: 1.0
+  drop_last: true
+
+runtime:
+  gpu_id: 0
+  output_dir: outputs/multiclass/${dataset.split}
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job:
+    chdir: false

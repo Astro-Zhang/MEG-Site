@@ -1,0 +1,41 @@
+defaults:
+  - _self_
+
+seed: 42
+
+dataset:
+  root: datasets/M3Site_data
+  split: "0.1"
+  eval_split: test
+
+model:
+  num_classes: 7
+  hidden_features: 256
+  num_layers: 4
+  dropout: 0.3
+  aa_vocab_size: 4096
+  aa_embedding_dim: 32
+  esm_dim: 1536
+  property_dim: 62
+  function_dim: 768
+  edge_dim: 1
+  use_function: true
+  fusion_mode: gate
+
+evaluate:
+  batch_size: 8
+  num_workers: 4
+  drop_last: false
+  checkpoint: outputs/multiclass/${dataset.split}/best_multiclass_${dataset.split}.pt
+  output_json: outputs/multiclass/${dataset.split}/test_metrics.json
+  output_csv: ""
+
+runtime:
+  gpu_id: 0
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job:
+    chdir: false

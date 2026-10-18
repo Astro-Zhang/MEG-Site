@@ -1,0 +1,35 @@
+defaults:
+  - _self_
+
+seed: 42
+tau: 0.2
+
+dataset:
+  test_tsv: "datasets/test.tsv"
+  mmsite_tsv: "datasets/mmsite.tsv"
+  protad_root: "datasets/protad"
+  features_file: "features.npy"
+  coords_file: "coords.npy"
+  edge_index_file: "edge_index_2.0.npy"
+  edge_attr_file: "edge_attr_2.0.npy"
+  text_feature_file: "text_features_prior.npy"
+  align_text_feature_file: "text_features_align.npz"
+
+model:
+  in_features: 2304
+  hidden_features: 1024
+  dropout: 0.3
+  num_layers: 4
+  # inverse distance + 16 RBF values; legacy 20-D files are converted at runtime
+  edge_dim: 17
+  text_dim: 768
+  name: "CombinedModel"
+
+test:
+  batch_size: 24
+  num_workers: 4
+  best_model_path: "pretrained_weights/best_model.pt"
+
+hydra:
+  run:
+    dir: outputs/binary/evaluate/${now:%Y-%m-%d}/${now:%H-%M-%S}
